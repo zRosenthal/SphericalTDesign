@@ -1,0 +1,11 @@
+S2D: main.o SIPMatrix.o sphIntvPoint.o
+	g++ -std=c++11 main.o SIPMatrix.o sphIntvPoint.o -o S2D
+
+main.o: main.cpp sphIntvPoint/sphIntvPoint.h SIPMatrix/sipmatrix.h LibConstants.h
+	g++ -std=c++11 -c -I /usr/local/Cellar/boost/1.59.0/include -I /Users/zacharyrosenthal/cxsc/include -L /Users/zacharyrosenthal/cxsc/lib main.cpp -lcxsc
+
+SIPMatrix.o: SIPMatrix/sipmatrix.cpp sipmatrix/sipmatrix.h sphIntvPoint/sphIntvPoint.h LibConstants.h
+	g++ -std=c++11 -c -I /usr/local/Cellar/boost/1.59.0/include -I /Users/zacharyrosenthal/cxsc/include -L /Users/zacharyrosenthal/cxsc/lib SIPMatrix/sipmatrix.cpp -lcxsc
+
+sphIntvPoint.o: sphIntvPoint/sphIntvPoint.cpp sphIntvPoint/sphIntvPoint.h
+	g++ -std=c++11 -c -I /usr/local/Cellar/boost/1.59.0/include -I /Users/zacharyrosenthal/cxsc/include -L /Users/zacharyrosenthal/cxsc/lib sphIntvPoint/sphIntvPoint.cpp -lcxsc

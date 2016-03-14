@@ -1,11 +1,6 @@
-s2d: matrix.o main.o
-	g++ --std=c++11 matrix.o main.o -o s2d
-
-main.o: main.cpp matrix.h
-	g++ -std=c++11 -w -c main.cpp
-matrix.o: matrix.h
-	g++ -std=c++11 -w -c matrix.cpp -I /usr/local/Cellar/boost/1.59.0/include
+S2D: main.cpp SIPMatrix/*.cpp sphIntvPoint/*.cpp
+	g++ -std=c++11 -I /usr/local/Cellar/boost/1.59.0/include -I /Users/zacharyrosenthal/cxsc/include -L /Users/zacharyrosenthal/cxsc/lib *.cpp SIPMatrix/*.cpp sphIntvPoint/*.cpp  -lcxsc -o S2D
 
 
 clean:
-	rm -f *.o s2d
+	rm -f S2D
