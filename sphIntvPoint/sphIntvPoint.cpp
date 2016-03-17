@@ -9,6 +9,11 @@ using namespace cxsc;
  * 
  * calculate theta and phi give x,y,z points
  */
+SphIntvPoint::SphIntvPoint() {
+    _theta = 0;
+    _phi = 0;
+}
+
 SphIntvPoint::SphIntvPoint(double x, double y, double z) {
     _theta = std::atan(y / x);
     _phi = std::atan(std::sqrt(x*x + y*y) / z);

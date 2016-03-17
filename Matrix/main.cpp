@@ -10,6 +10,7 @@ int main() {
     myMatrix<int> m(i, 3,3);
     cout << m << endl;
 
+    cout << m(1,1) << endl;
     vector<string> s = {"hello", "world", "this", "is", "a", "matrix"};
     myMatrix<string> m1(s,2,3);
     cout << m1 << endl;
