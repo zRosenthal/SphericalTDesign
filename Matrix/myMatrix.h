@@ -20,6 +20,7 @@ class myMatrix {
 
     public:
         myMatrix(std::vector<T>, size_t rows, size_t cols);
+        myMatrix(size_t rows, size_t cols);
         myMatrix(const myMatrix<T>& rhs);
         virtual ~myMatrix();
 
@@ -45,7 +46,8 @@ class myMatrix {
             for (int i = 0; i < mat.xDim_; i++) {
 
                 std::copy(mat.matrix_[i].begin(), mat.matrix_[i].end(), std::ostream_iterator<T>(out,","));
-                out << i<<std::endl; 
+
+                out << std::endl;
             }
 
             return out;
@@ -65,7 +67,6 @@ myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
 
         for (int i = 0; i < values.size(); i++) {
 
-            std::cout << "i: " << i << ", " << values[i] << "," << std::endl;
             holder.push_back(values[i]);
 
             if ((i+1)%cols == 0) {
@@ -75,6 +76,18 @@ myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
 
         }
     }
+}
+
+template<typename T>
+myMatrix<T>::myMatrix(size_t rows, size_t cols) {
+
+    xDim_ = rows;
+    yDim_ = cols;
+
+    vector<T> holder;
+    holder.reseize(cols);
+    myMatrix_.resize(rows, holder);
+
 }
 
 //Copy Constructor

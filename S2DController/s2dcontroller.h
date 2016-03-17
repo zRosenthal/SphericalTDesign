@@ -4,6 +4,7 @@
 #include<array>
 #include "../LibConstants.h"
 #include "../sphIntvPoint/sphIntvPoint.h"
+#include "../Matrix/myMatrix.h"
 
 using LibConstants::MATRIX_DIM;
 
@@ -14,7 +15,7 @@ class S2DController {
     public:
         S2DController(std::array<SphIntvPoint, MATRIX_DIM>);
         void buildYt();
-        //buildGt(SIPMatrix);
+        void buildGt(myMatrix<interval>);
 
 };
 #endif
