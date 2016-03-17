@@ -33,7 +33,7 @@ class myMatrix {
         myMatrix<T> operator +(const myMatrix<T>& rhs);
         myMatrix<T> operator -(const myMatrix<T>& rhs);
         myMatrix<T> operator *(const myMatrix<T>& rhs);
-
+        myMatrix<T> transpose();
         //scalar operations
         myMatrix<T> operator +(const T& rhs);
         myMatrix<T> operator -(const T& rhs);
@@ -114,6 +114,4 @@ myMatrix<T>& myMatrix<T>::operator=(const myMatrix<T> & rhs) {
         }
     }
 }
-
-
 #endif
