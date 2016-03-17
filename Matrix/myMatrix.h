@@ -24,8 +24,8 @@ class myMatrix {
         myMatrix(const myMatrix<T>& rhs);
         virtual ~myMatrix();
 
-        std::vector<T> getRow(size_t rNumber);
-        std::vector<T> getCol(size_t cNumber);
+        std::vector<T> getRow(size_t);
+        std::vector<T> getCol(size_t);
 
         myMatrix<T>& operator=(const myMatrix<T>& rhs);
         T operator() (const unsigned row, const unsigned col);
@@ -127,5 +127,32 @@ myMatrix<T>& myMatrix<T>::operator=(const myMatrix<T> & rhs) {
             matrix_[i][j] = rhs(i, j);
         }
     }
+}
+
+//getColumn
+template<typename T>
+vector<T> myMatrix<T>::getCol(size_t col) {
+
+    vector<T> retVec;
+
+    for (size_t i = 0; i < xDim_; i++) {
+
+        retVec.push_back(matrix_[i][col]);
+    }
+
+    return retVec;
+}
+
+//get Row
+vector<T> myMatrix<T>::getRow(size_t row) {
+
+    return matrix_[row];
+}
+
+//calculate transpose of a matrix
+template<typename T>
+myMatrix<T> myMatrix<T>::transpose() {
+
+
 }
 #endif
