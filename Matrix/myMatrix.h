@@ -149,10 +149,106 @@ vector<T> myMatrix<T>::getRow(size_t row) {
     return matrix_[row];
 }
 
-//calculate transpose of a matrix
+template<typename T>
+myMatrix<T> myMatrix<T>::operator+(const myMatrix<T> rhs) {
+
+    vector<T> container;
+
+    //check to make sure dimensions match
+    if ( xDim_ == rhs.xDim_ && yDim_ == rhs.yDim_ ) {
+
+        for ( unsigned i = 0; i < xDim_; i++ ) {
+
+            for ( unsigned j = 0; i < yDim_; j++ ) {
+
+                 container.push_back(((this->matrix_[i][j]) + (rhs(i,j))));
+
+            }
+        }
+
+        //debug
+        for ( unsigned i = 0; i < container.size(); i++ ) {
+
+            std::cout << container.at(i) << std::endl;
+
+        }
+    } else {
+
+        exit(-1);
+
+    }
+
+    return myMatrix<T>(container, xDim_, yDim_);
+}
+
+template<typename T>
+myMatrix<T> myMatrix<T>::operator-(const myMatrix<T> rhs) {
+
+    vector<T> container;
+
+    //check to make sure dimensions match
+    if ( xDim_ == rhs.xDim_ && yDim_ == rhs.yDim_ ) {
+
+        for ( unsigned i = 0; i < xDim_; i++ ) {
+
+            for ( unsigned j = 0; i < yDim_; j++ ) {
+
+                 container.push_back(((this->matrix_[i][j]) - (rhs(i,j))));
+            }
+        }
+        //debug
+        for ( unsigned i = 0; i < container.size(); i++ ) {
+
+            std::cout << container.at(i) << std::endl;
+
+        }
+    } else {
+
+        exit(-1);
+    }
+
+    return myMatrix<T>(container, xDim_, yDim_);
+}
+
+template<typename T>
+myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> rhs) {
+
+    vector<T> container;
+
+    //check to make sure the cDim of the object is equal to
+    //the rDim of the argument before multiplying
+    if ( xDim_ != rhs.yDim_ ) {
+
+        exit(-1);
+
+    }
+
+    /*
+    //multiply the matrices
+    for ( unsigned i = 0; i < xDim_; i++  ) {
+
+        for ( unsigned j = 0; j < rhs.yDim_; j++ ) {
+
+
+        }
+
+    }
+    */
+
+    return myMatrix<T>(container,yDim_, rhs.xDim_)
+
+}
+
 template<typename T>
 myMatrix<T> myMatrix<T>::transpose() {
 
+    myMatrix<T> retMat(yDim_, xDim_);
 
+    for (unsigned i = 0; i< N.xDim_; i++) {
+
+        retMat.matrix_[i] = getCol(i);
+    }
+
+    return retMat;
 }
 #endif
