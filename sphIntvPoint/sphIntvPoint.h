@@ -19,6 +19,7 @@ class SphIntvPoint {
         interval _phi;
     public:
         SphIntvPoint(double, double, double);
+        SphIntvPoint();
         SphIntvPoint(interval,interval);
         interval getTheta() const;
         interval getPhi() const;

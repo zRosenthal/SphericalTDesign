@@ -27,7 +27,7 @@ class myMatrix {
         std::vector<T> getCol(size_t cNumber);
 
         myMatrix<T>& operator=(const myMatrix<T>& rhs);
-        T operator() (size_t r, size_t c);
+        T operator() (const unsigned row, const unsigned col);
 
         //matrix operations
         myMatrix<T> operator +(const myMatrix<T>& rhs);
@@ -45,7 +45,7 @@ class myMatrix {
             for (int i = 0; i < mat.xDim_; i++) {
 
                 std::copy(mat.matrix_[i].begin(), mat.matrix_[i].end(), std::ostream_iterator<T>(out,","));
-                out << std::endl; 
+                out << i<<std::endl; 
             }
 
             return out;
@@ -65,6 +65,7 @@ myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
 
         for (int i = 0; i < values.size(); i++) {
 
+            std::cout << "i: " << i << ", " << values[i] << "," << std::endl;
             holder.push_back(values[i]);
 
             if ((i+1)%cols == 0) {
@@ -91,7 +92,7 @@ myMatrix<T>::~myMatrix() {}
 
 // Access the individual elements
 template<typename T>
-T myMatrix<T>::operator() (const unsigned& row, const unsigned& col) {
+T myMatrix<T>::operator() (const unsigned row, const unsigned col) {
 
     return matrix_[row][col];
 }
@@ -107,8 +108,8 @@ myMatrix<T>& myMatrix<T>::operator=(const myMatrix<T> & rhs) {
     xDim_ = rhs.xDim_;
     yDim_ = rhs.yDim_;
 
-    for (unsigned i=0; i<new_rows; i++) {
-        for (unsigned j=0; j<new_cols; j++) {
+    for (unsigned i = 0; i < xDim_; i++) {
+        for (unsigned j = 0; j < yDim_; j++) {
 
             matrix_[i][j] = rhs(i, j);
         }
