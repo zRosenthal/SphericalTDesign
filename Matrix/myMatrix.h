@@ -223,17 +223,35 @@ myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> rhs) {
 
     }
 
-    /*
-    //multiply the matrices
-    for ( unsigned i = 0; i < xDim_; i++  ) {
+    vector<T> row;
+    vector<T> col;
 
-        for ( unsigned j = 0; j < rhs.yDim_; j++ ) {
+    for ( unsigned i = 0; i < yDim_; i++  ) {
 
+        row = getRow(i);
+
+        for ( unsigned j = 0; j < rhs.xDim_; j++  ) {
+
+            col = getCol(j);
+
+            for ( unsigned x = 0; x < row.size(); x++ ) {
+
+                for ( unsigned y = 0; y < col.size(); y++  ) {
+
+                    if ( x == y ) {
+
+                        sum += row.at(x) * col.at(y);
+                        container.push_back( (row.at(x) * col.at(y))  );
+
+                    }
+
+                }
+
+            }
 
         }
 
     }
-    */
 
     return myMatrix<T>(container,yDim_, rhs.xDim_)
 
