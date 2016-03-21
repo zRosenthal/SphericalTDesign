@@ -73,7 +73,6 @@ myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
                 matrix_.push_back(holder);
                 holder.clear();
             }
-
         }
     }
 }
@@ -84,9 +83,9 @@ myMatrix<T>::myMatrix(size_t rows, size_t cols) {
     xDim_ = rows;
     yDim_ = cols;
 
-    vector<T> holder;
-    holder.reseize(cols);
-    myMatrix_.resize(rows, holder);
+    std::vector<T> holder;
+    holder.resize(cols);
+    matrix_.resize(rows, holder);
 
 }
 
@@ -124,16 +123,17 @@ myMatrix<T>& myMatrix<T>::operator=(const myMatrix<T> & rhs) {
     for (unsigned i = 0; i < xDim_; i++) {
         for (unsigned j = 0; j < yDim_; j++) {
 
-            matrix_[i][j] = rhs(i, j);
+            matrix_[i][j] = rhs.matrix_[i][j];
         }
     }
+    return *this;
 }
 
 //getColumn
 template<typename T>
-vector<T> myMatrix<T>::getCol(size_t col) {
+std::vector<T> myMatrix<T>::getCol(size_t col) {
 
-    vector<T> retVec;
+    std::vector<T> retVec;
 
     for (size_t i = 0; i < xDim_; i++) {
 
@@ -143,118 +143,95 @@ vector<T> myMatrix<T>::getCol(size_t col) {
     return retVec;
 }
 
+
 //get Row
-vector<T> myMatrix<T>::getRow(size_t row) {
+template<typename T>
+std::vector<T> myMatrix<T>::getRow(size_t row) {
 
     return matrix_[row];
 }
 
 template<typename T>
-myMatrix<T> myMatrix<T>::operator+(const myMatrix<T> rhs) {
-
-    vector<T> container;
+myMatrix<T> myMatrix<T>::operator+(const myMatrix<T>& rhs) {
 
     //check to make sure dimensions match
     if ( xDim_ == rhs.xDim_ && yDim_ == rhs.yDim_ ) {
 
+        myMatrix<T> mat(xDim_, yDim_);
+
         for ( unsigned i = 0; i < xDim_; i++ ) {
+            for ( unsigned j = 0; j < yDim_; j++ ) {
 
-            for ( unsigned j = 0; i < yDim_; j++ ) {
-
-                 container.push_back(((this->matrix_[i][j]) + (rhs(i,j))));
-
+                mat.matrix_[i][j] = this->matrix_[i][j] + rhs.matrix_[i][j];
             }
         }
 
-        //debug
-        for ( unsigned i = 0; i < container.size(); i++ ) {
-
-            std::cout << container.at(i) << std::endl;
-
-        }
+        return mat;
     } else {
 
         exit(-1);
-
     }
-
-    return myMatrix<T>(container, xDim_, yDim_);
 }
 
 template<typename T>
-myMatrix<T> myMatrix<T>::operator-(const myMatrix<T> rhs) {
+myMatrix<T> myMatrix<T>::operator-(const myMatrix<T> &rhs) {
 
-    vector<T> container;
-
+    //vector<T> container;
     //check to make sure dimensions match
     if ( xDim_ == rhs.xDim_ && yDim_ == rhs.yDim_ ) {
 
+        myMatrix<T> mat(xDim_, yDim_);
+
         for ( unsigned i = 0; i < xDim_; i++ ) {
 
-            for ( unsigned j = 0; i < yDim_; j++ ) {
+            for ( unsigned j = 0; j < yDim_; j++ ) {
 
-                 container.push_back(((this->matrix_[i][j]) - (rhs(i,j))));
+                mat.matrix_[i][j] = this->matrix_[i][j] - rhs.matrix_[i][j];
+
+                 //container.push_back(((this->matrix_[i][j]) - (rhs(i,j))));
             }
         }
         //debug
-        for ( unsigned i = 0; i < container.size(); i++ ) {
+        //for ( unsigned i = 0; i < container.size(); i++ ) {
 
-            std::cout << container.at(i) << std::endl;
+         //   std::cout << container.at(i) << std::endl;
 
-        }
+        //}
+        return mat;
     } else {
 
         exit(-1);
     }
 
-    return myMatrix<T>(container, xDim_, yDim_);
+    //return myMatrix<T>(container, xDim_, yDim_);
+    //return mat;
 }
 
 template<typename T>
-myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> rhs) {
-
-    vector<T> container;
+myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> &rhs) {
 
     //check to make sure the cDim of the object is equal to
     //the rDim of the argument before multiplying
-    if ( xDim_ != rhs.yDim_ ) {
+    if ( yDim_ != rhs.xDim_ ) {
 
         exit(-1);
 
     }
 
-    vector<T> row;
-    vector<T> col;
+    myMatrix<T> mat(xDim_, rhs.yDim_);
+    T sum;
 
-    for ( unsigned i = 0; i < yDim_; i++  ) {
-
-        row = getRow(i);
-
-        for ( unsigned j = 0; j < rhs.xDim_; j++  ) {
-
-            col = getCol(j);
-
-            for ( unsigned x = 0; x < row.size(); x++ ) {
-
-                for ( unsigned y = 0; y < col.size(); y++  ) {
-
-                    if ( x == y ) {
-
-                        sum += row.at(x) * col.at(y);
-                        container.push_back( (row.at(x) * col.at(y))  );
-
-                    }
-
-                }
-
+    for (size_t i = 0; i < xDim_; i++) {
+        for (size_t j = 0; j < rhs.yDim_; j++) {
+            sum = 0;
+            for (size_t k = 0; k < yDim_; k++) {
+                sum += matrix_[i][k] * rhs.matrix_[k][j];
             }
-
+            mat.matrix_[i][j] = sum;
         }
-
     }
 
-    return myMatrix<T>(container,yDim_, rhs.xDim_)
-
+    return mat;
 }
 
 template<typename T>
@@ -262,7 +239,7 @@ myMatrix<T> myMatrix<T>::transpose() {
 
     myMatrix<T> retMat(yDim_, xDim_);
 
-    for (unsigned i = 0; i< N.xDim_; i++) {
+    for (unsigned i = 0; i< retMat.xDim_; i++) {
 
         retMat.matrix_[i] = getCol(i);
     }
