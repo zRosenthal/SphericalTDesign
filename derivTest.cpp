@@ -7,6 +7,7 @@ DerivType f(const DerivType& x) {
 
     return power(x,2);
 }
+
 int main() {
     interval x,fx,dfx,ddfx;
     x = 2;

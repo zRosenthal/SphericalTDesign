@@ -14,8 +14,7 @@ class S2DController {
         std::array<SphIntvPoint, MATRIX_DIM> pointSet_;
     public:
         S2DController(std::array<SphIntvPoint, MATRIX_DIM>);
-        void buildYt();
-        void buildGt(myMatrix<interval>);
-
+        myMatrix<cxsc::interval> buildYt();
+        myMatrix<cxsc::interval> build();
 };
 #endif
