@@ -28,6 +28,8 @@ class SphIntvPoint {
         SphIntvPoint operator+(const SphIntvPoint&);
         SphIntvPoint operator*(const SphIntvPoint&);
 
+        void iter();
+
         //friends
         friend std::ostream &operator<<(std::ostream&, const SphIntvPoint&);
 };
