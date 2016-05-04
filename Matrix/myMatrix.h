@@ -1,18 +1,18 @@
+##TEMPLATED MATRIX CLASS
 #ifndef SIPMATRIX_H
 #define SIPMATRIX_H
 
 #include<vector>
 #include<iostream>
 #include<algorithm>
-
-//#include "interval.hpp"
 #include "../LibConstants.h"
-//#include "../sphIntvPoint/sphIntvPoint.h"
 #include<array>
 
 using LibConstants::MATRIX_DIM;
+
 template <typename T>
 class myMatrix {
+
     private:
         std::vector<std::vector<T>> matrix_;
         size_t xDim_;
@@ -41,6 +41,7 @@ class myMatrix {
         myMatrix<T> operator *(const T& rhs);
 
 
+        //overloaded ostream operator to ouput matrix
         friend std::ostream& operator<< (std::ostream &out, const myMatrix<T> &mat) {
 
             for (int i = 0; i < mat.xDim_; i++) {
@@ -54,6 +55,7 @@ class myMatrix {
         }
 };
 
+//Constructor -  tkae values and put them into Matrix (rows x cols)
 template <typename T>
 myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
 
@@ -77,6 +79,7 @@ myMatrix<T>::myMatrix(std::vector<T> values, size_t rows, size_t cols) {
     }
 }
 
+//Constructor - intialize rows and cols
 template<typename T>
 myMatrix<T>::myMatrix(size_t rows, size_t cols) {
 
@@ -151,6 +154,7 @@ std::vector<T> myMatrix<T>::getRow(size_t row) {
     return matrix_[row];
 }
 
+//overlaod addition operator
 template<typename T>
 myMatrix<T> myMatrix<T>::operator+(const myMatrix<T>& rhs) {
 
@@ -173,6 +177,7 @@ myMatrix<T> myMatrix<T>::operator+(const myMatrix<T>& rhs) {
     }
 }
 
+//Overload subtraction operator
 template<typename T>
 myMatrix<T> myMatrix<T>::operator-(const myMatrix<T> &rhs) {
 
@@ -188,25 +193,18 @@ myMatrix<T> myMatrix<T>::operator-(const myMatrix<T> &rhs) {
 
                 mat.matrix_[i][j] = this->matrix_[i][j] - rhs.matrix_[i][j];
 
-                 //container.push_back(((this->matrix_[i][j]) - (rhs(i,j))));
             }
         }
-        //debug
-        //for ( unsigned i = 0; i < container.size(); i++ ) {
 
-         //   std::cout << container.at(i) << std::endl;
-
-        //}
         return mat;
     } else {
 
         exit(-1);
     }
 
-    //return myMatrix<T>(container, xDim_, yDim_);
-    //return mat;
 }
 
+//Overload multiplication operator
 template<typename T>
 myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> &rhs) {
 
@@ -234,6 +232,7 @@ myMatrix<T> myMatrix<T>::operator*(const myMatrix<T> &rhs) {
     return mat;
 }
 
+//Transpose - calculate transpose of the matrix
 template<typename T>
 myMatrix<T> myMatrix<T>::transpose() {
 

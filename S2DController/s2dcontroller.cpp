@@ -7,6 +7,7 @@
 #include "s2dcontroller.h"
 #include "../sphIntvPoint/sphIntvPoint.h"
 #include "../Matrix/myMatrix.h"
+//Constructor - intialize the controller
 S2DController::S2DController(std::array<SphIntvPoint, MATRIX_DIM> pointSet) {
 
     pointSet_ = pointSet;
@@ -14,9 +15,9 @@ S2DController::S2DController(std::array<SphIntvPoint, MATRIX_DIM> pointSet) {
     myMatrix<cxsc::interval> c = build();
 
     std::cout << std::endl << std::endl << "c: " << c << std::endl;
-
 }
 
+//Build C(Xn)
 myMatrix<cxsc::interval> S2DController::build() {
 
     myMatrix<cxsc::interval> Y = buildYt();
@@ -62,6 +63,7 @@ myMatrix<cxsc::interval> S2DController::build() {
     return C;
 }
 
+//Build Yt
 myMatrix<cxsc::interval> S2DController::buildYt() {
 
     std::vector<cxsc::interval> holder;
