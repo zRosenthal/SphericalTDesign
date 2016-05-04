@@ -12,9 +12,24 @@ S2DController::S2DController(std::array<SphIntvPoint, MATRIX_DIM> pointSet) {
 
     pointSet_ = pointSet;
 
-    myMatrix<cxsc::interval> c = build();
+    myMatrix<cxsc::interval> c;
+    do {
 
-    std::cout << std::endl << std::endl << "c: " << c << std::endl;
+        c = build();
+
+        std::cout << std::endl << std::endl << "c: " << c << std::endl;
+
+        iterPoints();
+
+    } while (c != 0);
+}
+
+void S2DController::iterPoints() {
+
+    for (auto elm: pointSet_) {
+
+        elm.iter();
+    }
 }
 
 //Build C(Xn)
@@ -22,7 +37,7 @@ myMatrix<cxsc::interval> S2DController::build() {
 
     myMatrix<cxsc::interval> Y = buildYt();
     myMatrix<cxsc::interval> YT = Y.transpose();
-    myMatrix<cxsc::interval> Gt = YT*Y;
+    G = YT*Y;
 
     std::vector<cxsc::interval> holder;
 
@@ -52,7 +67,7 @@ myMatrix<cxsc::interval> S2DController::build() {
     myMatrix<cxsc::interval> e(eVec, MATRIX_DIM, 1);
 
     std::cout << "YT: " << std::endl << YT << std::endl;
-    std::cout << "Gt: " << std::endl << Gt << std::endl;
+    std::cout << "Gt: " << std::endl << G << std::endl;
     std::cout << "E: " << std::endl << E << std::endl;
     std::cout << "e: " << std::endl << e << std::endl;
 
@@ -97,3 +112,25 @@ myMatrix<cxsc::interval> S2DController::buildYt() {
     return m;
 }
 
+std::pair<myMatrix<cxsc::interval>,myMatrix<cxsc::interval>> myMatrix::midG() {
+
+    vector<cxsc::interval> matrixData = G.getDataVector();
+
+    vector<cxsc::interval> holder1,holder2;
+    cxsc::real inf,sup,mid;
+    cxsc::interval low,high;
+    for (auto elm: matrixData) {
+
+        inf = cxsc::Inf(elm);
+        sup = cxsc::Sup(elm);
+        mid = cxsc::mid(elm);
+        low = [inf, mid];
+        high = [mid, sup];
+        holder1.push_back(low);
+        holder2.push_back(high);
+    }
+
+    myMatrix<cxsc::interval> lowG(holder1, MATRIX_DIM, MATRIX_DIM);
+    myMatrix<cxsc::interval> highG(holder2, MATRIX_DIM, MATRIX_DIM);
+    return std::make_pair(lowG, highG);
+}

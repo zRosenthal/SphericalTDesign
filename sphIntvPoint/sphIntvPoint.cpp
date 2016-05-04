@@ -25,6 +25,9 @@ SphIntvPoint::SphIntvPoint(interval theta, interval phi) {
     _phi = phi;
 }
 
+void SphIntvPoint::iter() {
+
+}
 
 //GETTERS
 
